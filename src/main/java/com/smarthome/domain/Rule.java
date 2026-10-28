@@ -26,18 +26,6 @@ public final class Rule {
     private final List<Action> actions;
     private final Instant createdAt;
 
-    /**
-     * Constructs a Rule with explicit creation timestamp.
-     *
-     * @param id            unique identifier
-     * @param name          human-readable rule name
-     * @param enabled       whether the rule is active
-     * @param tier          priority tier
-     * @param tieBreakOrder tie-break precedence for rules within the same tier (lower = higher priority)
-     * @param rootCondition root condition tree
-     * @param actions       list of actions executed when the condition is met
-     * @param createdAt     rule creation timestamp
-     */
     public Rule(
             String id,
             String name,

@@ -5,13 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- * Entity representing an IoT device within the smart home environment.
- * <p>
- * Entity identity and equivalence are strictly determined by {@code id}.
- * Instances are immutable; state updates return new instances.
- * </p>
- */
+
 public final class Device {
 
     private final String id;

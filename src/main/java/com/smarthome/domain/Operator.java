@@ -3,15 +3,6 @@ package com.smarthome.domain;
 import java.math.BigDecimal;
 import java.util.regex.Pattern;
 
-/**
- * Relational comparison operators for evaluating device state values.
- * <p>
- * If both operands are plain decimal numbers, an exact numeric comparison is applied.
- * Otherwise only {@link #EQ} and {@link #NEQ} are meaningful, using case-insensitive
- * text comparison; ordering operators return false. Any comparison against a missing
- * (null) state value returns false, so unknown state never triggers a rule.
- * </p>
- */
 public enum Operator {
     EQ,
     NEQ,
@@ -22,13 +13,7 @@ public enum Operator {
 
     private static final Pattern NUMBER = Pattern.compile("[-+]?(\\d+(\\.\\d*)?|\\.\\d+)");
 
-    /**
-     * Evaluates this operator comparing the actual telemetry value against the expected target.
-     *
-     * @param actual   the observed state value (null if the state is absent)
-     * @param expected the expected value specified in the condition
-     * @return true if the comparison holds, false otherwise (including when either side is null)
-     */
+    
     public boolean apply(String actual, String expected) {
         if (actual == null || expected == null) {
             return false;
