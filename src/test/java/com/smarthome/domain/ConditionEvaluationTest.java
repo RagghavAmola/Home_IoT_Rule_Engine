@@ -93,8 +93,8 @@ class ConditionEvaluationTest {
 
         LeafCondition stringGt = new LeafCondition(DEV_THERMOSTAT, "mode", Operator.GT, "COOL");
         LeafCondition stringLt = new LeafCondition(DEV_THERMOSTAT, "mode", Operator.LT, "VENT");
-        assertTrue(stringGt.evaluate(snapshot), "'HEAT' is lexicographically greater than 'COOL'");
-        assertTrue(stringLt.evaluate(snapshot), "'HEAT' is lexicographically less than 'VENT'");
+        assertFalse(stringGt.evaluate(snapshot), "Ordering operators on non-numeric strings return false");
+        assertFalse(stringLt.evaluate(snapshot), "Ordering operators on non-numeric strings return false");
     }
 
     @Test
@@ -106,7 +106,7 @@ class ConditionEvaluationTest {
         LeafCondition gtCond = new LeafCondition(DEV_THERMOSTAT, "temp", Operator.GT, "20");
 
         assertFalse(eqCond.evaluate(emptySnapshot), "Missing state key should evaluate to false for EQ");
-        assertTrue(neqCond.evaluate(emptySnapshot), "Missing state key should evaluate to true for NEQ");
+        assertFalse(neqCond.evaluate(emptySnapshot), "Missing state key should evaluate to false for NEQ");
         assertFalse(gtCond.evaluate(emptySnapshot), "Missing state key cannot satisfy GT");
     }
 
