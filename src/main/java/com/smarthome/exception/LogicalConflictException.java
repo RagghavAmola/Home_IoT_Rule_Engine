@@ -1,16 +1,54 @@
 package com.smarthome.exception;
 
-/**
- * Unchecked exception thrown when a domain or engine rule causes a logical conflict or paradox.
- */
-public class LogicalConflictException extends RuntimeException {
+import java.util.Collections;
+import java.util.List;
 
+/**
+ * Checked exception thrown when a rule validation or domain operation causes a logical conflict,
+ * such as introducing a circular dependency in the rule execution graph.
+ */
+public class LogicalConflictException extends Exception {
+
+    private final List<String> cyclePath;
+
+    /**
+     * Constructs a LogicalConflictException with a message and empty cycle path.
+     *
+     * @param message human-readable conflict description
+     */
     public LogicalConflictException(String message) {
         super(message);
+        this.cyclePath = Collections.emptyList();
     }
 
+    /**
+     * Constructs a LogicalConflictException with a message and the offending cycle path.
+     *
+     * @param message   human-readable conflict description
+     * @param cyclePath list of rule IDs or names forming the cycle
+     */
+    public LogicalConflictException(String message, List<String> cyclePath) {
+        super(message);
+        this.cyclePath = cyclePath != null ? List.copyOf(cyclePath) : Collections.emptyList();
+    }
+
+    /**
+     * Constructs a LogicalConflictException with a message and an underlying cause.
+     *
+     * @param message human-readable conflict description
+     * @param cause   underlying cause
+     */
     public LogicalConflictException(String message, Throwable cause) {
         super(message, cause);
+        this.cyclePath = Collections.emptyList();
+    }
+
+    /**
+     * Retrieves the sequence of rule identifiers forming the detected cycle.
+     *
+     * @return unmodifiable list representing the cycle path (e.g. ["R1", "R2", "R1"])
+     */
+    public List<String> getCyclePath() {
+        return cyclePath;
     }
 }
-
