@@ -48,6 +48,12 @@ class EngineArchitectureTest {
         assertLayerClean(Paths.get("src", "main", "java", "com", "smarthome", "simulation"), LAYER_FORBIDDEN_PREFIXES, "Simulation");
     }
 
+    @Test
+    @DisplayName("Verify domain layer contains no javafx.* or java.sql.* imports")
+    void verifyNoForbiddenImportsInDomain() throws IOException {
+        assertLayerClean(Paths.get("src", "main", "java", "com", "smarthome", "domain"), LAYER_FORBIDDEN_PREFIXES, "Domain");
+    }
+
     private void assertLayerClean(Path layerDir, List<String> forbiddenPrefixes, String layerName) throws IOException {
         assertTrue(Files.exists(layerDir), layerName + " directory must exist");
 

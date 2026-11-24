@@ -111,11 +111,14 @@ public class ConflictResolver {
                     ProposedAction winner = candidates.get(0);
                     toExecute.add(winner.action());
 
+                    String winnerName = ruleDisplayName(winner.rule());
+
                     for (int i = 1; i < candidates.size(); i++) {
                         ProposedAction loser = candidates.get(i);
                         // Only create override records if the loser proposed a different target value
                         if (!valuesEqual(loser.action().targetValue(), winner.action().targetValue())) {
-                            OverrideRecord override = createOverrideRecord(winner, loser, targetKey, now);
+                            String loserName = ruleDisplayName(loser.rule());
+                            OverrideRecord override = createOverrideRecord(winner, winnerName, loser, loserName, targetKey, now);
                             overrides.add(override);
 
                             // Emit structured event to RULE_AUDIT logger
@@ -144,7 +147,9 @@ public class ConflictResolver {
 
     private OverrideRecord createOverrideRecord(
             ProposedAction winner,
+            String winnerName,
             ProposedAction loser,
+            String loserName,
             DeviceStateKey targetKey,
             Instant timestamp
     ) {
@@ -152,9 +157,9 @@ public class ConflictResolver {
         if (winner.rule().getTier() != loser.rule().getTier()) {
             reason = String.format(
                     "Priority tier override: Rule '%s' (%s) prevailed over Rule '%s' (%s) on %s (applied: '%s', dropped: '%s')",
-                    winner.rule().getName(),
+                    winnerName,
                     winner.rule().getTier(),
-                    loser.rule().getName(),
+                    loserName,
                     loser.rule().getTier(),
                     targetKey,
                     winner.action().targetValue(),
@@ -163,8 +168,8 @@ public class ConflictResolver {
         } else {
             reason = String.format(
                     "Same-tier tie-break override: Rule '%s' prevailed over Rule '%s' on %s (applied: '%s', dropped: '%s')",
-                    winner.rule().getName(),
-                    loser.rule().getName(),
+                    winnerName,
+                    loserName,
                     targetKey,
                     winner.action().targetValue(),
                     loser.action().targetValue()
@@ -185,6 +190,16 @@ public class ConflictResolver {
         );
     }
 
+    private String ruleDisplayName(Rule rule) {
+        if (rule == null) {
+            return "Unknown Rule";
+        }
+        if (rule.getName() != null && !rule.getName().isBlank()) {
+            return rule.getName();
+        }
+        return rule.getId();
+    }
+
     private boolean valuesEqual(String val1, String val2) {
         if (val1 == null && val2 == null) {
             return true;
@@ -197,4 +212,3 @@ public class ConflictResolver {
 
     private record ProposedAction(Rule rule, Action action) {}
 }
-

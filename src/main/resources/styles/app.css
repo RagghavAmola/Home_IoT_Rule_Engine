@@ -1,0 +1,262 @@
+/* Smart Home IoT Rule Engine Desktop Stylesheet */
+
+.root {
+    -fx-font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    -fx-font-size: 13px;
+    -fx-base: #f5f7fa;
+    -fx-background: #ffffff;
+}
+
+/* Header */
+.app-header {
+    -fx-background-color: #1e293b;
+    -fx-border-color: #334155;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.app-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f8fafc;
+}
+
+.app-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #94a3b8;
+}
+
+/* TabPane */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #f1f5f9;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #e2e8f0;
+    -fx-padding: 8px 18px;
+    -fx-font-weight: 600;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #3b82f6 #cbd5e1 transparent #cbd5e1;
+    -fx-border-width: 3px 1px 0 1px;
+}
+
+/* Device Cards */
+.device-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 4, 0, 0, 2);
+}
+
+.device-name {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.badge-room {
+    -fx-background-color: #e0f2fe;
+    -fx-text-fill: #0284c7;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 2px 6px;
+    -fx-background-radius: 4px;
+}
+
+.device-type-label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748b;
+}
+
+.device-state-value {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+/* Buttons */
+.button {
+    -fx-cursor: hand;
+    -fx-padding: 6px 12px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 6px;
+}
+
+.btn-primary {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: #ffffff;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #1d4ed8;
+}
+
+.btn-neutral {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #334155;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 6px;
+}
+
+.btn-neutral:hover {
+    -fx-background-color: #e2e8f0;
+}
+
+.btn-action {
+    -fx-background-color: #0284c7;
+    -fx-text-fill: #ffffff;
+}
+
+.btn-action:hover {
+    -fx-background-color: #0369a1;
+}
+
+.btn-warning {
+    -fx-background-color: #f59e0b;
+    -fx-text-fill: #ffffff;
+}
+
+.btn-warning:hover {
+    -fx-background-color: #d97706;
+}
+
+.btn-danger {
+    -fx-background-color: #ef4444;
+    -fx-text-fill: #ffffff;
+}
+
+.btn-danger:hover {
+    -fx-background-color: #dc2626;
+}
+
+.btn-toggle:selected {
+    -fx-background-color: #10b981;
+    -fx-text-fill: #ffffff;
+}
+
+/* Tier Badges */
+.tier-badge {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 4px;
+}
+
+.tier-safety {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #dc2626;
+}
+
+.tier-comfort {
+    -fx-background-color: #fef3c7;
+    -fx-text-fill: #d97706;
+}
+
+.tier-energy {
+    -fx-background-color: #dcfce7;
+    -fx-text-fill: #16a34a;
+}
+
+/* Status Badges */
+.status-badge {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 4px;
+}
+
+.status-enabled {
+    -fx-background-color: #dcfce7;
+    -fx-text-fill: #15803d;
+}
+
+.status-disabled {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #64748b;
+}
+
+/* Log Badges */
+.log-badge {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 2px 6px;
+    -fx-background-radius: 4px;
+}
+
+.log-rule_fired {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #1d4ed8;
+}
+
+.log-override {
+    -fx-background-color: #ffedd5;
+    -fx-text-fill: #c2410c;
+}
+
+.log-state_change {
+    -fx-background-color: #f3e8ff;
+    -fx-text-fill: #7e22ce;
+}
+
+.log-error {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #b91c1c;
+}
+
+.log-system, .log-rule_saved {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #334155;
+}
+
+/* Form Cards */
+.form-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 16px;
+}
+
+.card-header-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.section-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748b;
+}
+
+/* Status Bar */
+.status-bar {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.status-item {
+    -fx-font-size: 11px;
+    -fx-text-fill: #64748b;
+    -fx-font-weight: 600;
+}
+
+.status-summary {
+    -fx-font-size: 11px;
+    -fx-text-fill: #3b82f6;
+    -fx-font-weight: 600;
+    -fx-alignment: center-right;
+}
+

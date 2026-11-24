@@ -2,8 +2,6 @@ package com.smarthome.engine.graph;
 
 import com.smarthome.domain.DeviceStateKey;
 import com.smarthome.domain.Rule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -44,7 +42,6 @@ import java.util.Set;
  */
 public class RuleDependencyGraph {
 
-    private static final Logger logger = LoggerFactory.getLogger(RuleDependencyGraph.class);
 
     private final Map<String, Rule> rulesById = new LinkedHashMap<>();
     private final Map<String, Set<String>> adjacencyMap = new LinkedHashMap<>();

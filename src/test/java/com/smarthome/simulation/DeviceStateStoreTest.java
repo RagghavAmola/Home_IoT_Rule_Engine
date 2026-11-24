@@ -1,7 +1,6 @@
 package com.smarthome.simulation;
 
 import com.smarthome.domain.Action;
-import com.smarthome.domain.DeviceStateKey;
 import com.smarthome.engine.StateSnapshot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

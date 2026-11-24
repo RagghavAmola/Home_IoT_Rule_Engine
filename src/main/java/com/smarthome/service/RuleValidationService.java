@@ -3,9 +3,12 @@ package com.smarthome.service;
 import com.smarthome.domain.Rule;
 import com.smarthome.exception.LogicalConflictException;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Service interface responsible for validating automation rules and enforcing graph invariants (DAG constraints)
- * prior to persistence.
+ * prior to persistence, alongside rule management operations.
  */
 public interface RuleValidationService {
 
@@ -31,5 +34,35 @@ public interface RuleValidationService {
      * @throws LogicalConflictException if re-enabling introduces a dependency cycle
      */
     Rule enableRule(String ruleId) throws LogicalConflictException;
-}
 
+    /**
+     * Disables an active rule without deleting its configuration.
+     *
+     * @param ruleId unique identifier of the rule to disable
+     * @return the updated disabled rule
+     */
+    Rule disableRule(String ruleId);
+
+    /**
+     * Deletes a rule from the system by ID.
+     *
+     * @param ruleId unique identifier of the rule to delete
+     * @return true if deleted, false if not found
+     */
+    boolean deleteRule(String ruleId);
+
+    /**
+     * Retrieves all rules configured in the system.
+     *
+     * @return list of all rules
+     */
+    List<Rule> findAllRules();
+
+    /**
+     * Looks up a rule by ID.
+     *
+     * @param ruleId rule identifier
+     * @return Optional containing rule if found
+     */
+    Optional<Rule> findRuleById(String ruleId);
+}

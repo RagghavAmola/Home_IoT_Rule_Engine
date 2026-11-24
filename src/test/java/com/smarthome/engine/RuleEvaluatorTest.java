@@ -2,7 +2,6 @@ package com.smarthome.engine;
 
 import com.smarthome.domain.Action;
 import com.smarthome.domain.ConditionGroup;
-import com.smarthome.domain.DeviceStateKey;
 import com.smarthome.domain.LeafCondition;
 import com.smarthome.domain.LogicalOperator;
 import com.smarthome.domain.Operator;
