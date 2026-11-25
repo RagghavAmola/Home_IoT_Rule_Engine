@@ -31,36 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Background monitoring service that continuously evaluates active IoT automation rules
- * on a dedicated single-threaded daemon scheduler.
- * <p>
- * <b>Evaluation Cycle Workflow (every {@code monitor.interval.ms}):</b>
- * <ol>
- *   <li>Takes an atomic, immutable snapshot of the {@link DeviceStateStore}.</li>
- *   <li>Loads enabled rules from the in-memory {@link RuleCache} (isolated from DB latency).</li>
- *   <li>Evaluates conditions and resolves priority conflicts via pure-Java {@link RuleEngine}.</li>
- *   <li>Applies surviving non-conflicting actions to {@link DeviceStateStore}.</li>
- *   <li>Batches state updates and persists execution/override audit records via DAOs off the UI thread.</li>
- *   <li>Dispatches events to registered {@link EngineEventListener} observers.</li>
- * </ol>
- * </p>
- * <p>
- * <b>Threading Model &amp; Concurrency Strategy:</b>
- * <ul>
- *   <li><b>Dedicated Monitor Thread:</b> Owns a single-threaded {@link ScheduledExecutorService}
- *       with a dedicated daemon thread named {@code "rule-monitor"}.</li>
- *   <li><b>UI Thread Protection:</b> All database persistence and state evaluation work run
- *       exclusively on the monitor thread, ensuring the JavaFX Application Thread is never blocked.</li>
- *   <li><b>Rule Edit Isolation:</b> Rule additions, updates, and deletes from the UI thread interact
- *       with {@link RuleCache} using a read-write lock / copy-on-write snapshotting strategy.
- *       In-flight evaluations read an immutable snapshot that is never corrupted by concurrent UI edits.</li>
- *   <li><b>Exception Safety:</b> Unhandled exceptions occurring in a tick are caught, logged, and reported
- *       via {@link EngineEventListener#onError(String, Throwable)}, guaranteeing that an error in one tick
- *       never terminates future scheduled ticks.</li>
- *   <li><b>Graceful Lifecycle:</b> {@link #shutdown()} halts the scheduler and uses {@link ScheduledExecutorService#awaitTermination(long, TimeUnit)}
- *       to cleanly await completion of any in-flight evaluation.</li>
- * </ul>
- * </p>
+ * Background monitoring service evaluating active rules and persisting state and audit logs.
  */
 public class RuleMonitorService {
 
@@ -86,14 +57,6 @@ public class RuleMonitorService {
 
     /**
      * Primary constructor with all dependencies.
-     *
-     * @param stateStore         in-memory device state store
-     * @param ruleEngine         pure-Java rule evaluation engine
-     * @param ruleCache          in-memory thread-safe rule cache
-     * @param deviceStateDao     DAO for batch persisting state updates (nullable)
-     * @param executionLogDao    DAO for persisting execution and override audit logs (nullable)
-     * @param transactionManager transaction manager boundary (nullable)
-     * @param monitorIntervalMs  scheduled interval between ticks in milliseconds
      */
     public RuleMonitorService(
             DeviceStateStore stateStore,

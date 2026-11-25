@@ -12,15 +12,6 @@ import java.util.function.BiFunction;
 
 /**
  * Immutable snapshot of IoT device telemetry states at a specific point in time.
- * <p>
- * Implements {@link Map} delegating to an unmodifiable defensive copy, ensuring seamless
- * interoperability with condition evaluation, logging, and collection algorithms.
- * </p>
- * <p>
- * <b>Thread-safety strategy:</b> Immutable value object. All internal collections are
- * defensively copied and unmodifiable. Arbitrary concurrent readers can safely access
- * instances across threads without synchronization.
- * </p>
  */
 public final class StateSnapshot implements Map<DeviceStateKey, String> {
 

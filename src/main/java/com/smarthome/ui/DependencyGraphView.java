@@ -103,7 +103,6 @@ public class DependencyGraphView extends VBox {
             return;
         }
 
-        // Build adjacency map: Rule A -> Rule B if A.writeSet intersects B.readSet
         Map<String, Set<String>> edges = new HashMap<>();
         Map<String, Rule> rulesById = new HashMap<>();
         for (Rule r : enabledRules) {
@@ -124,7 +123,6 @@ public class DependencyGraphView extends VBox {
             }
         }
 
-        // Compute layout coordinates (grouping nodes in columns/tiers)
         Map<String, Double> nodeX = new HashMap<>();
         Map<String, Double> nodeY = new HashMap<>();
 
@@ -133,7 +131,6 @@ public class DependencyGraphView extends VBox {
         double colWidth = 240;
         double rowHeight = 120;
 
-        // Group by PriorityTier
         Map<PriorityTier, List<Rule>> byTier = new HashMap<>();
         for (PriorityTier t : PriorityTier.values()) {
             byTier.put(t, new ArrayList<>());
@@ -158,7 +155,6 @@ public class DependencyGraphView extends VBox {
 
         Set<String> cycleSet = new HashSet<>(cyclePathToHighlight != null ? cyclePathToHighlight : Collections.emptyList());
 
-        // 1. Draw directed edges first so they sit underneath nodes
         for (Map.Entry<String, Set<String>> entry : edges.entrySet()) {
             String fromId = entry.getKey();
             Double fromX = nodeX.get(fromId);
@@ -175,7 +171,6 @@ public class DependencyGraphView extends VBox {
             }
         }
 
-        // 2. Draw nodes (rule cards)
         for (Rule r : enabledRules) {
             Double x = nodeX.get(r.getId());
             Double y = nodeY.get(r.getId());

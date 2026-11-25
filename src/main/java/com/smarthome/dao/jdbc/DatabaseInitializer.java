@@ -16,11 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Initializes the database schema and default seed data idempotently at application startup.
- * <p>
- * <b>Thread-safety strategy:</b> Stateless execution over supplied connection provider.
- * Should be called once during application bootstrap or test fixture setup.
- * </p>
+ * Initializes database schema and default seed data idempotently at application startup.
  */
 public class DatabaseInitializer {
 

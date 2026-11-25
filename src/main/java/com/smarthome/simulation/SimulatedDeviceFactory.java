@@ -14,10 +14,7 @@ public final class SimulatedDeviceFactory {
     }
 
     /**
-     * Creates a simulated device instance from a domain {@link Device} entity.
-     *
-     * @param device domain device
-     * @return concrete simulated device
+     * Creates a simulated device instance from a domain Device entity.
      */
     public static SimulatedDevice create(Device device) {
         Objects.requireNonNull(device, "device cannot be null");

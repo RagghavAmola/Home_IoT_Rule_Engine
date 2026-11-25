@@ -7,11 +7,6 @@ import java.util.List;
 
 /**
  * Result record from evaluating cascading rule actuations across a simulation tick.
- *
- * @param cascadeSteps    total number of cascade steps executed (must be >= 0)
- * @param maxDepthReached true if evaluation was halted by the runtime runaway chain guard
- * @param executedActions ordered list of all actions applied across all cascade steps
- * @param overrides       ordered list of all override records generated across all cascade steps
  */
 public record CascadeResult(
         int cascadeSteps,

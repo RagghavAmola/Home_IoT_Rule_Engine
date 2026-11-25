@@ -11,24 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Pure-Java evaluator that tests a collection of rules against a device state snapshot
- * and identifies all rules whose condition trees evaluate to true.
- * <p>
- * Only active (enabled) rules are evaluated. Disabled rules are ignored.
- * </p>
- * <p>
- * <b>Thread-safety strategy:</b> Stateless service. All evaluation logic operates solely
- * on parameters passed in and stack-confined variables, making it safe for concurrent use.
- * </p>
+ * Evaluates rules against a state snapshot to identify triggered rules.
  */
 public class RuleEvaluator {
 
     /**
-     * Finds all enabled rules whose root conditions evaluate to true against the given state snapshot.
-     *
-     * @param enabledRules collection of candidate rules to evaluate
-     * @param snapshot     immutable snapshot of device telemetry states
-     * @return unmodifiable list of triggered rules with their proposed actions
+     * Finds all enabled rules whose root conditions evaluate to true against the given snapshot.
      */
     public List<TriggeredRule> findTriggered(Collection<Rule> enabledRules, StateSnapshot snapshot) {
         if (enabledRules == null || enabledRules.isEmpty() || snapshot == null) {

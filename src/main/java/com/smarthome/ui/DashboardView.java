@@ -38,7 +38,6 @@ public class DashboardView extends VBox {
         setPadding(new Insets(16));
         getStyleClass().add("dashboard-view");
 
-        // Top Filter Bar
         HBox filterBar = new HBox(10);
         filterBar.setAlignment(Pos.CENTER_LEFT);
 
@@ -55,7 +54,6 @@ public class DashboardView extends VBox {
 
         filterBar.getChildren().addAll(searchLabel, searchField, roomFilter);
 
-        // Cards Flow Layout
         cardsGrid = new FlowPane();
         cardsGrid.setHgap(14);
         cardsGrid.setVgap(14);

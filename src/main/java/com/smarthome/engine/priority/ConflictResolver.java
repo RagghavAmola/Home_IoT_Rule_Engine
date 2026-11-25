@@ -17,29 +17,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Priority-based conflict resolver that detects and resolves contradictory actuations
- * across rules triggered within the same evaluation cycle.
- * <p>
- * <b>Contradiction Definition:</b>
- * A contradiction occurs when two or more triggered rules produce actions targeting the exact same
- * {@link DeviceStateKey} with different target values.
- * </p>
- * <p>
- * <b>Resolution Algorithm:</b>
- * <ol>
- *   <li>All proposed actions across triggered rules are partitioned by {@link DeviceStateKey}.</li>
- *   <li>Non-conflicting actions (single actions or multiple actions agreeing on the same target value)
- *       pass through directly to {@code toExecute}.</li>
- *   <li>When a contradiction is detected, actions are sorted deterministically using {@link TierComparator}.</li>
- *   <li>The highest-tier rule's action is preserved and added to {@code toExecute}.</li>
- *   <li>All contradictory lower-precedence actions are dropped, an {@link OverrideRecord} is generated
- *       for each dropped action, and a structured audit log event is emitted on the {@code RULE_AUDIT} logger.</li>
- * </ol>
- * </p>
- * <p>
- * <b>Thread-safety strategy:</b> Stateless service. All resolution calculations and intermediate
- * state are contained within thread-local stack frames, ensuring safe concurrent execution.
- * </p>
+ * Resolves priority conflicts among actions proposed by rules triggered within the same evaluation cycle.
  */
 public class ConflictResolver {
 

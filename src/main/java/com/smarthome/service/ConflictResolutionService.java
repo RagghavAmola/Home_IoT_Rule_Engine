@@ -11,11 +11,7 @@ import java.util.List;
 public interface ConflictResolutionService {
 
     /**
-     * Resolves contradictions among actions proposed by triggered rules and persists generated
-     * override audit records to the database.
-     *
-     * @param triggeredRules collection of rules triggered in the current evaluation cycle
-     * @return the {@link ResolutionResult} containing approved actions and recorded overrides
+     * Resolves contradictions among actions proposed by triggered rules and persists override records.
      */
     ResolutionResult resolveAndPersist(List<TriggeredRule> triggeredRules);
 }

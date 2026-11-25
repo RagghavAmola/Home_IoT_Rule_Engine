@@ -75,15 +75,7 @@ public final class Rule {
     }
 
     /**
-     * Constructs a Rule defaulting {@code createdAt} to current instant.
-     *
-     * @param id            unique identifier
-     * @param name          human-readable rule name
-     * @param enabled       whether the rule is active
-     * @param tier          priority tier
-     * @param tieBreakOrder tie-break precedence within tier
-     * @param rootCondition root condition tree
-     * @param actions       actions to trigger
+     * Constructs a Rule defaulting createdAt to the current instant.
      */
     public Rule(
             String id,

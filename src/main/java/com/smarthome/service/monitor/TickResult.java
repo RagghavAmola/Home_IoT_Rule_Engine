@@ -7,13 +7,6 @@ import java.util.List;
 
 /**
  * Metric summary of an individual evaluation tick executed by {@link RuleMonitorService}.
- *
- * @param rulesEvaluatedCount total count of active rules evaluated in this tick (must be >= 0)
- * @param triggeredRulesCount count of rules whose conditions evaluated to true (must be >= 0)
- * @param actionsApplied      list of non-conflicting actions successfully applied to device state
- * @param overrides           list of override records generated from priority conflicts
- * @param durationMs          execution time of the evaluation tick in milliseconds (must be >= 0)
- * @param errorOccurred       true if an exception occurred during the tick
  */
 public record TickResult(
         int rulesEvaluatedCount,

@@ -15,13 +15,7 @@ import java.util.Objects;
 import java.util.Properties;
 
 /**
- * Default JDBC {@link ConnectionProvider} that loads database connection configuration
- * from external {@code config/app.properties} with fallback to classpath {@code /config/app.properties}.
- * <p>
- * <b>Thread-safety strategy:</b> Configuration fields are immutable and read-only.
- * Transactional connections are bound to the calling thread via {@link ThreadLocal}.
- * Concurrent threads safely obtain separate physical connections or their own thread-bound transactional connections.
- * </p>
+ * Connection provider supporting SQLite and MySQL with transaction-aware connections.
  */
 public class JdbcConnectionProvider implements ConnectionProvider {
 

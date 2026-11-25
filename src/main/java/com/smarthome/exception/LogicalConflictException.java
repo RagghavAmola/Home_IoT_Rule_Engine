@@ -12,9 +12,7 @@ public class LogicalConflictException extends Exception {
     private final List<String> cyclePath;
 
     /**
-     * Constructs a LogicalConflictException with a message and empty cycle path.
-     *
-     * @param message human-readable conflict description
+     * Constructs a LogicalConflictException with a message.
      */
     public LogicalConflictException(String message) {
         super(message);
@@ -22,10 +20,7 @@ public class LogicalConflictException extends Exception {
     }
 
     /**
-     * Constructs a LogicalConflictException with a message and the offending cycle path.
-     *
-     * @param message   human-readable conflict description
-     * @param cyclePath list of rule IDs or names forming the cycle
+     * Constructs a LogicalConflictException with a message and cycle path.
      */
     public LogicalConflictException(String message, List<String> cyclePath) {
         super(message);
@@ -33,10 +28,7 @@ public class LogicalConflictException extends Exception {
     }
 
     /**
-     * Constructs a LogicalConflictException with a message and an underlying cause.
-     *
-     * @param message human-readable conflict description
-     * @param cause   underlying cause
+     * Constructs a LogicalConflictException with a message and cause.
      */
     public LogicalConflictException(String message, Throwable cause) {
         super(message, cause);
@@ -45,8 +37,6 @@ public class LogicalConflictException extends Exception {
 
     /**
      * Retrieves the sequence of rule identifiers forming the detected cycle.
-     *
-     * @return unmodifiable list representing the cycle path (e.g. ["R1", "R2", "R1"])
      */
     public List<String> getCyclePath() {
         return cyclePath;

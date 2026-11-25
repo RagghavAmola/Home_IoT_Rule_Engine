@@ -69,13 +69,11 @@ public class ActivityLogView extends VBox {
         tableView.getStyleClass().add("activity-table");
         VBox.setVgrow(tableView, Priority.ALWAYS);
 
-        // Timestamp Column
         TableColumn<ActivityLogItemViewModel, String> timeCol = new TableColumn<>("Time");
         timeCol.setCellValueFactory(data -> data.getValue().timestampProperty());
         timeCol.setComparator(String::compareTo);
         timeCol.setPrefWidth(120);
 
-        // Type Column
         TableColumn<ActivityLogItemViewModel, String> typeCol = new TableColumn<>("Event Type");
         typeCol.setCellValueFactory(data -> data.getValue().typeProperty());
         typeCol.setCellFactory(col -> new TableCell<>() {
@@ -95,19 +93,16 @@ public class ActivityLogView extends VBox {
         });
         typeCol.setPrefWidth(130);
 
-        // Summary Message Column
         TableColumn<ActivityLogItemViewModel, String> summaryCol = new TableColumn<>("Summary");
         summaryCol.setCellValueFactory(data -> data.getValue().summaryProperty());
         summaryCol.setPrefWidth(450);
 
-        // Details Column
         TableColumn<ActivityLogItemViewModel, String> detailsCol = new TableColumn<>("Details");
         detailsCol.setCellValueFactory(data -> data.getValue().detailsProperty());
         detailsCol.setPrefWidth(220);
 
         tableView.getColumns().addAll(timeCol, typeCol, summaryCol, detailsCol);
 
-        // Auto-scroll listener: scrolls to latest chronological entry at bottom
         sortedLogItems.addListener((javafx.collections.ListChangeListener<ActivityLogItemViewModel>) c -> {
             if (autoScrollCheck.isSelected() && !sortedLogItems.isEmpty()) {
                 Platform.runLater(() -> tableView.scrollTo(sortedLogItems.size() - 1));

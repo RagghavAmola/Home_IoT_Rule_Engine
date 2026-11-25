@@ -15,12 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Implementation of {@link RuleValidationService} providing DAG cycle checking before rule persistence
- * and orchestrating updates to both persistent storage and in-memory caches.
- * <p>
- * <b>Thread-safety strategy:</b> Stateless service relying on thread-safe DAO,
- * synchronized graph evaluation, and thread-safe {@link RuleCache}.
- * </p>
+ * Implementation of RuleValidationService providing DAG cycle checking before rule persistence.
  */
 public class RuleValidationServiceImpl implements RuleValidationService {
 

@@ -11,19 +11,12 @@ import java.util.Optional;
 public interface RuleDao {
 
     /**
-     * Persists a rule with its complete hierarchical condition tree and actions transactionally.
-     * If the rule already exists, updates it and replaces its condition hierarchy and actions.
-     *
-     * @param rule the rule to save
-     * @return the saved rule
+     * Persists a rule with its condition tree and actions.
      */
     Rule save(Rule rule);
 
     /**
-     * Retrieves a rule by its unique identifier, reconstructing its full condition tree and actions.
-     *
-     * @param id unique identifier of the rule
-     * @return Optional containing the reconstructed Rule if found, or empty Optional
+     * Retrieves a rule by its unique identifier.
      */
     Optional<Rule> findById(String id);
 

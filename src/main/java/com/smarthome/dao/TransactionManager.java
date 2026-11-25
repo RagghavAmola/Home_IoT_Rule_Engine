@@ -8,19 +8,11 @@ public interface TransactionManager {
 
     /**
      * Executes a unit of work within a managed transaction that returns a result.
-     * If the unit of work throws an exception, the transaction is rolled back.
-     *
-     * @param <T>      return type
-     * @param callable block to execute
-     * @return result of the callable
      */
     <T> T executeInTransaction(TransactionCallable<T> callable);
 
     /**
      * Executes a unit of work within a managed transaction that produces no result.
-     * If the unit of work throws an exception, the transaction is rolled back.
-     *
-     * @param runnable block to execute
      */
     void executeInTransaction(TransactionRunnable runnable);
 

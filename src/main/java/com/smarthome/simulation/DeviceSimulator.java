@@ -15,20 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * High-level simulation controller and event injection utility.
- * <p>
- * Provides convenient methods for UI components and test harnesses to inject sensor telemetry events
- * (e.g. "smoke detected", "temperature = 31.0") into the {@link DeviceStateStore}.
- * </p>
- * <p>
- * Evaluates cascading rule executions in a simulation tick with a configurable maximum cascade depth guard
- * to protect against runaway execution chains at runtime.
- * </p>
- * <p>
- * <b>Thread-safety strategy:</b> The simulator delegates state mutations to the thread-safe {@link DeviceStateStore}
- * and rule evaluations to the stateless {@link RuleEngine}. Cascading ticks are executed deterministically against
- * sequential snapshots.
- * </p>
+ * Simulation controller providing event injection and cascading rule execution guards.
  */
 public class DeviceSimulator {
 

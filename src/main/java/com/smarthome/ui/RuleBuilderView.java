@@ -61,17 +61,14 @@ public class RuleBuilderView extends ScrollPane {
     private String editingRuleId;
     private Instant editingCreatedAt;
 
-    // Form inputs
     private final TextField nameField = new TextField();
     private final ComboBox<PriorityTier> tierCombo = new ComboBox<>(FXCollections.observableArrayList(PriorityTier.values()));
     private final Spinner<Integer> tieBreakSpinner = new Spinner<>(0, 100, 0);
     private final CheckBox enabledCheckBox = new CheckBox("Rule Enabled");
 
-    // Condition Tree
     private final TreeView<ConditionTreeNode> conditionTreeView = new TreeView<>();
     private TreeItem<ConditionTreeNode> rootTreeItem;
 
-    // Condition Leaf/Group Editor Controls
     private final VBox nodeEditorBox = new VBox(8);
     private final ComboBox<LogicalOperator> groupOpCombo = new ComboBox<>(FXCollections.observableArrayList(LogicalOperator.values()));
     private final ComboBox<String> leafDeviceCombo = new ComboBox<>();
@@ -82,14 +79,12 @@ public class RuleBuilderView extends ScrollPane {
     private ConditionTreeNode activeNode;
     private boolean updatingEditor = false;
 
-    // Action Table
     private final ObservableList<Action> actionList = FXCollections.observableArrayList();
     private final TableView<Action> actionTable = new TableView<>(actionList);
     private final ComboBox<String> actionDeviceCombo = new ComboBox<>();
     private final TextField actionKeyField = new TextField();
     private final TextField actionValueField = new TextField();
 
-    // Progress and Save
     private final Button saveButton = new Button("Validate & Save Rule");
     private final Button clearButton = new Button("Clear Form");
     private final ProgressIndicator progressIndicator = new ProgressIndicator();

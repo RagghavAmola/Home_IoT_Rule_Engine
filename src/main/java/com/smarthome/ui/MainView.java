@@ -44,14 +44,12 @@ public class MainView extends BorderPane {
         this.presenter = Objects.requireNonNull(presenter, "presenter cannot be null");
         getStyleClass().add("main-view");
 
-        // Create individual tab views
         this.dashboardView = new DashboardView(presenter.getDeviceViewModels(), presenter.getDeviceControlService());
         this.ruleBuilderView = new RuleBuilderView(presenter.getRuleValidationService(), presenter.getDeviceControlService());
         this.rulesView = new RulesView(presenter.getRuleViewModels(), presenter.getRuleValidationService());
         this.activityLogView = new ActivityLogView(presenter.getActivityLogs());
         this.dependencyGraphView = new DependencyGraphView(presenter.getRuleValidationService());
 
-        // Create tabs
         this.dashboardTab = new Tab("Dashboard", dashboardView);
         this.dashboardTab.setClosable(false);
 
@@ -69,7 +67,6 @@ public class MainView extends BorderPane {
 
         tabPane.getTabs().addAll(dashboardTab, ruleBuilderTab, rulesTab, activityLogTab, dependencyGraphTab);
 
-        // Wire interactions between tabs
         setupTabInteractions();
 
         setTop(buildHeaderBar());
@@ -78,27 +75,23 @@ public class MainView extends BorderPane {
     }
 
     private void setupTabInteractions() {
-        // When New Rule clicked in RulesView, switch to Rule Builder and reset
         rulesView.setOnNewRuleListener(() -> {
             ruleBuilderView.resetForm();
             ruleBuilderView.refreshDeviceChoices();
             tabPane.getSelectionModel().select(ruleBuilderTab);
         });
 
-        // When Edit Rule clicked in RulesView, switch to Rule Builder and load
         rulesView.setOnEditRuleListener(rule -> {
             ruleBuilderView.loadRule(rule);
             ruleBuilderView.refreshDeviceChoices();
             tabPane.getSelectionModel().select(ruleBuilderTab);
         });
 
-        // When rule saved in RuleBuilderView, update presenter and graph
         ruleBuilderView.setOnRuleSavedListener(savedRule -> {
             presenter.onRuleSaved(savedRule);
             dependencyGraphView.renderGraph(Collections.emptyList());
         });
 
-        // Auto-refresh graph when graph tab is selected
         dependencyGraphTab.setOnSelectionChanged(e -> {
             if (dependencyGraphTab.isSelected()) {
                 dependencyGraphView.renderGraph(Collections.emptyList());
@@ -112,7 +105,6 @@ public class MainView extends BorderPane {
         header.setPadding(new Insets(12, 20, 12, 20));
         header.getStyleClass().add("app-header");
 
-        // Title and branding
         VBox titleBox = new VBox(2);
         Label appTitle = new Label("Smart Home IoT Rule Engine");
         appTitle.getStyleClass().add("app-title");
@@ -123,7 +115,6 @@ public class MainView extends BorderPane {
         titleBox.getChildren().addAll(appTitle, appSub);
         HBox.setHgrow(titleBox, Priority.ALWAYS);
 
-        // Header Action Controls
         HBox controls = new HBox(10);
         controls.setAlignment(Pos.CENTER_RIGHT);
 

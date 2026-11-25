@@ -17,26 +17,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Supplier;
 
 /**
- * Thread-safe in-memory cache of automation rules.
- * <p>
- * Ensures evaluation cycles never query the database on every tick and guarantees that
- * concurrent rule modifications (e.g. from the UI thread) never corrupt or interfere
- * with an in-flight evaluation on the background monitor thread.
- * </p>
- * <p>
- * <b>Threading Model & Concurrency Strategy:</b>
- * <ul>
- *   <li><b>Hybrid Read-Write Lock & Copy-on-Write:</b> Employs a {@link ReentrantReadWriteLock}.
- *       Read operations (such as obtaining enabled rules for evaluation) acquire the read lock
- *       and return an immutable snapshot ({@link List#copyOf(Collection)}).</li>
- *   <li><b>Isolated Mutations:</b> Write operations (adding, updating, removing rules, or reloading
- *       from {@link RuleDao}) acquire the exclusive write lock, update internal storage, and atomically
- *       publish a new immutable copy-on-write list of enabled rules.</li>
- *   <li><b>In-Flight Isolation:</b> An evaluation thread holding a reference to the snapshot returned
- *       by {@link #getEnabledRules()} is completely unaffected by subsequent writes, eliminating
- *       any possibility of {@link java.util.ConcurrentModificationException} or inconsistent rule states.</li>
- * </ul>
- * </p>
+ * Thread-safe in-memory cache of automation rules ensuring isolated snapshot reads during evaluations.
  */
 public class RuleCache {
 

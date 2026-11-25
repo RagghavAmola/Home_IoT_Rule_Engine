@@ -11,18 +11,12 @@ import java.util.Optional;
 public interface DeviceDao {
 
     /**
-     * Persists a device entity. If the device exists, updates its metadata.
-     *
-     * @param device the device to save
-     * @return the persisted device
+     * Persists a device entity.
      */
     Device save(Device device);
 
     /**
-     * Retrieves a device by its unique identifier, including its current state map.
-     *
-     * @param id unique identifier of the device
-     * @return Optional containing the Device if found, or empty Optional
+     * Retrieves a device by its unique identifier.
      */
     Optional<Device> findById(String id);
 

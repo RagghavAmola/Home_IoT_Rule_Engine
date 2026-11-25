@@ -79,7 +79,6 @@ public class AppBootstrap {
         logger.info("Starting Smart Home IoT Rule Engine bootstrap initialization...");
         loadProperties();
 
-        // 1. Establish Database Connection & Run Initializer
         String dbUrl = properties.getProperty("db.url", "jdbc:sqlite:smarthome.db");
         String dbUser = properties.getProperty("db.user", "");
         String dbPass = properties.getProperty("db.password", "");
@@ -87,28 +86,23 @@ public class AppBootstrap {
         this.connectionProvider = new JdbcConnectionProvider(dbUrl, dbUser, dbPass);
         new DatabaseInitializer(connectionProvider).initialize(true);
 
-        // 2. Instantiate DAOs and Transaction Manager
         this.transactionManager = new JdbcTransactionManager(connectionProvider);
         this.deviceDao = new JdbcDeviceDao(connectionProvider);
         this.deviceStateDao = new JdbcDeviceStateDao(connectionProvider);
         this.ruleDao = new JdbcRuleDao(connectionProvider);
         this.executionLogDao = new JdbcExecutionLogDao(connectionProvider);
 
-        // 3. Setup Simulation & In-Memory State Store
         this.stateStore = new DeviceStateStore();
         populateInitialStateStore();
 
-        // 4. Setup Engine, Graph & Caches
         this.ruleEngine = new RuleEngine();
         this.dependencyGraph = new RuleDependencyGraph();
         this.ruleCache = new RuleCache(ruleDao);
         this.ruleCache.refresh();
 
-        // 5. Setup Services
         this.ruleValidationService = new RuleValidationServiceImpl(ruleDao, dependencyGraph, ruleCache);
         this.deviceControlService = new DeviceControlServiceImpl(deviceDao, deviceStateDao, stateStore);
 
-        // 6. Setup and Start Background Monitor
         long monitorInterval = Long.parseLong(properties.getProperty("monitor.interval.ms", "2000"));
         this.ruleMonitorService = new RuleMonitorService(
                 stateStore,

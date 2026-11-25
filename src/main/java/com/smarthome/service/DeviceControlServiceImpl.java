@@ -18,12 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Implementation of {@link DeviceControlService} orchestrating live in-memory updates
- * via {@link DeviceStateStore} and persistent storage via DAOs.
- * <p>
- * <b>Thread-safety strategy:</b> Stateless service delegating to thread-safe {@link DeviceStateStore}
- * and thread-safe DAO implementations.
- * </p>
+ * Implementation of DeviceControlService orchestrating live state store and persistent updates.
  */
 public class DeviceControlServiceImpl implements DeviceControlService {
 

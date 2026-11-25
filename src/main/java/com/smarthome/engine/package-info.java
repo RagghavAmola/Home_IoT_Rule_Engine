@@ -1,8 +1,4 @@
 /**
- * Core rule engine logic implemented in pure Java.
- * <p>
- * Contains dependency graph modeling, cycle detection, priority conflict resolution,
- * and rule evaluation. Must not import JavaFX or JDBC.
- * </p>
+ * Core rule engine evaluation, graph modeling, and conflict resolution logic.
  */
 package com.smarthome.engine;

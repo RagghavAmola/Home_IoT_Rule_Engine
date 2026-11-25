@@ -82,12 +82,10 @@ public class RulesView extends VBox {
         tableView.getStyleClass().add("rules-table");
         VBox.setVgrow(tableView, Priority.ALWAYS);
 
-        // Name Column
         TableColumn<RuleItemViewModel, String> nameCol = new TableColumn<>("Rule Name");
         nameCol.setCellValueFactory(data -> data.getValue().nameProperty());
         nameCol.setPrefWidth(220);
 
-        // Tier Column
         TableColumn<RuleItemViewModel, PriorityTier> tierCol = new TableColumn<>("Tier");
         tierCol.setCellValueFactory(data -> data.getValue().tierProperty());
         tierCol.setCellFactory(column -> new TableCell<>() {
@@ -107,12 +105,10 @@ public class RulesView extends VBox {
         });
         tierCol.setPrefWidth(110);
 
-        // Tie-Break Order Column
         TableColumn<RuleItemViewModel, Number> orderCol = new TableColumn<>("Tie-Break");
         orderCol.setCellValueFactory(data -> data.getValue().tieBreakOrderProperty());
         orderCol.setPrefWidth(80);
 
-        // Enabled Column
         TableColumn<RuleItemViewModel, Boolean> enabledCol = new TableColumn<>("Status");
         enabledCol.setCellValueFactory(data -> data.getValue().enabledProperty());
         enabledCol.setCellFactory(column -> new TableCell<>() {
@@ -132,17 +128,14 @@ public class RulesView extends VBox {
         });
         enabledCol.setPrefWidth(100);
 
-        // Read Set Column
         TableColumn<RuleItemViewModel, String> readSetCol = new TableColumn<>("Condition Read Set");
         readSetCol.setCellValueFactory(data -> data.getValue().readSetSummaryProperty());
         readSetCol.setPrefWidth(160);
 
-        // Write Set Column
         TableColumn<RuleItemViewModel, String> writeSetCol = new TableColumn<>("Action Write Set");
         writeSetCol.setCellValueFactory(data -> data.getValue().writeSetSummaryProperty());
         writeSetCol.setPrefWidth(160);
 
-        // Last Fired Column
         TableColumn<RuleItemViewModel, String> lastFiredCol = new TableColumn<>("Last Fired");
         lastFiredCol.setCellValueFactory(data -> data.getValue().lastFiredProperty());
         lastFiredCol.setPrefWidth(110);

@@ -14,20 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Thread-safe in-memory repository representing the live operational state of all smart devices.
- * <p>
- * <b>Thread-safety strategy:</b>
- * <ul>
- *   <li><b>Live State:</b> Managed via {@link ConcurrentHashMap}, providing lock-free concurrent reads
- *       and thread-safe atomic updates across concurrent writers.</li>
- *   <li><b>Device Registry:</b> Backed by a {@link ConcurrentHashMap} allowing thread-safe registration
- *       and concurrent lookups.</li>
- *   <li><b>Listeners:</b> Stored in a {@link CopyOnWriteArrayList}, guaranteeing safe lock-free iteration
- *       during event dispatch while allowing concurrent registration/deregistration of listeners.</li>
- *   <li><b>Snapshots:</b> {@link #snapshot()} captures an atomic, unmodifiable point-in-time copy via
- *       {@link StateSnapshot}, completely isolated from concurrent and future mutations.</li>
- * </ul>
- * </p>
+ * Thread-safe in-memory repository representing the live operational state of smart devices.
  */
 public class DeviceStateStore {
 
@@ -51,14 +38,6 @@ public class DeviceStateStore {
 
     /**
      * Applies an action to the live device state store.
-     * <p>
-     * If the target device is registered, its state validation rules are strictly enforced.
-     * If the new value differs from the existing value, registered listeners are notified.
-     * </p>
-     *
-     * @param action the action command to apply
-     * @return true if the state value actually changed; false if it was identical
-     * @throws IllegalArgumentException if the action is invalid according to the device's validation rules
      */
     public boolean applyAction(Action action) {
         Objects.requireNonNull(action, "action cannot be null");

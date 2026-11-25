@@ -13,26 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Depth-First Search (DFS) cycle detector using three-color marking (WHITE, GRAY, BLACK).
- * <p>
- * Implemented iteratively using an explicit stack to prevent call-stack overflow on deep graphs
- * (e.g., chains of 10,000+ rules).
- * </p>
- * <p>
- * <b>Color definitions:</b>
- * <ul>
- *   <li>{@code WHITE}: Node is unvisited.</li>
- *   <li>{@code GRAY}: Node is currently on the active traversal path (visiting).</li>
- *   <li>{@code BLACK}: Node and all of its reachable descendants have been fully explored.</li>
- * </ul>
- * When a directed edge leads to a {@code GRAY} node, a back-edge is encountered, indicating
- * a cycle. The exact directed cycle path (e.g. {@code [R1, R2, R3, R1]} or self-loop {@code [R1, R1]})
- * is captured and returned.
- * </p>
- * <p>
- * <b>Thread-safety strategy:</b> Stateless class. All state is maintained locally within method
- * invocation frames, ensuring thread-safe concurrent execution.
- * </p>
+ * Three-color iterative DFS cycle detector finding back-edges and cycle paths in rule graphs.
  */
 public class CycleDetector {
 

@@ -19,29 +19,10 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Directed dependency graph representing triggering relationships among smart home automation rules.
- * <p>
- * <b>Dependency Semantics:</b>
- * A directed edge {@code A -> B} exists when an actuation produced by rule {@code A}
- * can trigger the condition evaluated by rule {@code B}. Specifically, an edge {@code A -> B}
- * is created whenever {@code A.getWriteSet()} intersects with {@code B.getReadSet()}
- * on at least one {@link DeviceStateKey}.
- * </p>
- * <p>
- * <b>Conservative Overlap Strategy:</b>
- * In accordance with smart home safety requirements, any overlap between {@code A.writeSet}
- * and {@code B.readSet} is conservatively treated as a dependency edge, irrespective of target
- * value matching or current state. This conservative approach guarantees that no potential
- * cyclic actuation feedback loop is missed.
- * </p>
- * <p>
- * <b>Thread-safety strategy:</b>
- * Internal graph state is guarded by explicit object synchronization ({@code synchronized} methods).
- * Query methods return defensive unmodifiable snapshots.
- * </p>
+ * Directed dependency graph tracking rule actuation-trigger relationships.
+ * An edge A -> B exists when A's writeSet overlaps with B's readSet.
  */
 public class RuleDependencyGraph {
-
 
     private final Map<String, Rule> rulesById = new LinkedHashMap<>();
     private final Map<String, Set<String>> adjacencyMap = new LinkedHashMap<>();
@@ -57,9 +38,7 @@ public class RuleDependencyGraph {
     }
 
     /**
-     * Adds a rule node to the dependency graph and updates all incoming, outgoing, and self-loop edges.
-     *
-     * @param rule the rule to insert
+     * Adds a rule node to the dependency graph and updates edges.
      */
     public synchronized void addRule(Rule rule) {
         Objects.requireNonNull(rule, "rule cannot be null");
@@ -68,13 +47,10 @@ public class RuleDependencyGraph {
         rulesById.put(rule.getId(), rule);
         adjacencyMap.put(rule.getId(), new LinkedHashSet<>());
 
-        // Register in inverted reader index
         for (DeviceStateKey readKey : rule.getReadSet()) {
             readersByKey.computeIfAbsent(readKey, k -> new HashSet<>()).add(rule.getId());
         }
 
-        // Recompute edges involving this rule
-        // 1. Outgoing edges: for each writeKey of this rule, find existing rules reading it
         for (DeviceStateKey writeKey : rule.getWriteSet()) {
             Set<String> readers = readersByKey.get(writeKey);
             if (readers != null) {
@@ -84,7 +60,6 @@ public class RuleDependencyGraph {
             }
         }
 
-        // 2. Incoming edges: for each existing rule whose writeSet contains any readKey of this rule
         for (Rule existing : rulesById.values()) {
             if (!existing.getId().equals(rule.getId())) {
                 for (DeviceStateKey readKey : rule.getReadSet()) {
@@ -97,9 +72,7 @@ public class RuleDependencyGraph {
     }
 
     /**
-     * Removes a rule node and all its associated incoming and outgoing edges from the graph.
-     *
-     * @param ruleId unique identifier of the rule to remove
+     * Removes a rule node and its associated edges from the graph.
      */
     public synchronized void removeRule(String ruleId) {
         Objects.requireNonNull(ruleId, "ruleId cannot be null");
@@ -118,7 +91,6 @@ public class RuleDependencyGraph {
             }
         }
 
-        // Remove incoming edges from remaining nodes
         for (Set<String> neighbors : adjacencyMap.values()) {
             neighbors.remove(ruleId);
         }
@@ -126,8 +98,6 @@ public class RuleDependencyGraph {
 
     /**
      * Rebuilds the entire dependency graph from a provided collection of rules.
-     *
-     * @param rules collection of rules to populate into the graph
      */
     public synchronized void rebuild(Collection<Rule> rules) {
         Objects.requireNonNull(rules, "rules cannot be null");
@@ -135,7 +105,6 @@ public class RuleDependencyGraph {
         adjacencyMap.clear();
         readersByKey.clear();
 
-        // 1. Register all nodes and populate inverted reader index
         for (Rule rule : rules) {
             rulesById.put(rule.getId(), rule);
             adjacencyMap.put(rule.getId(), new LinkedHashSet<>());
@@ -144,7 +113,6 @@ public class RuleDependencyGraph {
             }
         }
 
-        // 2. Establish directed edges: A -> B when A.writeSet intersects B.readSet
         for (Rule rule : rules) {
             Set<String> outNeighbors = adjacencyMap.get(rule.getId());
             for (DeviceStateKey writeKey : rule.getWriteSet()) {
@@ -157,19 +125,12 @@ public class RuleDependencyGraph {
     }
 
     /**
-     * Evaluates whether adding or modifying a candidate rule within the existing rule set introduces
-     * any dependency cycle.
-     *
-     * @param candidate the proposed candidate rule
-     * @param existing  collection of existing active rules
-     * @return list representing the cycle path (e.g. {@code ["R1", "R2", "R1"]}),
-     *         or an empty list if no cycle is introduced
+     * Evaluates whether adding or modifying a candidate rule introduces any dependency cycle.
      */
     public List<String> findCyclePath(Rule candidate, Collection<Rule> existing) {
         Objects.requireNonNull(candidate, "candidate cannot be null");
         Objects.requireNonNull(existing, "existing rules cannot be null");
 
-        // Build temporary graph model containing existing rules plus candidate
         Map<String, Rule> combinedRules = new LinkedHashMap<>();
         for (Rule r : existing) {
             if (r.isEnabled()) {
@@ -191,13 +152,8 @@ public class RuleDependencyGraph {
 
     /**
      * Computes a valid topological ordering of the rules using Kahn's algorithm.
-     *
-     * @return list of rule identifiers ordered such that for every directed edge {@code u -> v},
-     *         {@code u} precedes {@code v}
-     * @throws IllegalStateException if the graph contains a directed cycle
      */
     public synchronized List<String> getTopologicalOrder() {
-        // Calculate in-degrees
         Map<String, Integer> inDegree = new HashMap<>();
         for (String node : adjacencyMap.keySet()) {
             inDegree.put(node, 0);
@@ -208,7 +164,6 @@ public class RuleDependencyGraph {
             }
         }
 
-        // Initialize queue with zero in-degree nodes
         Deque<String> queue = new ArrayDeque<>();
         for (Map.Entry<String, Integer> entry : inDegree.entrySet()) {
             if (entry.getValue() == 0) {

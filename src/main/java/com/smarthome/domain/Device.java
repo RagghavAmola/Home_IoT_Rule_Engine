@@ -15,13 +15,7 @@ public final class Device {
     private final Map<String, String> state;
 
     /**
-     * Constructs a new Device instance with an initial state map.
-     *
-     * @param id    unique device identifier
-     * @param name  human-readable device name
-     * @param type  category of the device
-     * @param room  room or zone location
-     * @param state map of state key-value pairs (defensively copied)
+     * Constructs a Device with an initial state map.
      */
     public Device(String id, String name, DeviceType type, String room, Map<String, String> state) {
         Objects.requireNonNull(id, "id cannot be null");

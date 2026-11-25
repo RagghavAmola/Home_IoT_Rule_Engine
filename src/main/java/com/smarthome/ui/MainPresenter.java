@@ -30,11 +30,6 @@ import java.util.stream.Collectors;
 
 /**
  * Main UI presenter coordinating view models, services, and event dispatch.
- * <p>
- * Implements {@link EngineEventListener} to observe background monitoring events.
- * All callbacks from background threads are strictly marshalled onto the JavaFX Application
- * Thread using {@link Platform#runLater(Runnable)}. Contains zero business logic.
- * </p>
  */
 public class MainPresenter implements EngineEventListener {
 
@@ -62,14 +57,12 @@ public class MainPresenter implements EngineEventListener {
         this.ruleValidationService = Objects.requireNonNull(ruleValidationService, "ruleValidationService cannot be null");
         this.ruleMonitorService = Objects.requireNonNull(ruleMonitorService, "ruleMonitorService cannot be null");
 
-        // Register as listener for background monitor events
         this.ruleMonitorService.addListener(this);
 
         loadInitialData();
     }
 
     private void loadInitialData() {
-        // Load Devices
         List<Device> devices = deviceControlService.getAllDevices();
         Map<DeviceStateKey, String> allStates = deviceControlService.getAllStates();
 
@@ -85,7 +78,6 @@ public class MainPresenter implements EngineEventListener {
             deviceMap.put(dev.getId(), vm);
         }
 
-        // Load Rules
         List<Rule> rules = ruleValidationService.findAllRules();
         for (Rule r : rules) {
             RuleItemViewModel vm = new RuleItemViewModel(r);

@@ -10,10 +10,6 @@ import java.util.Optional;
 
 /**
  * Service interface for querying devices and executing manual actuation commands.
- * <p>
- * Ensures all user-initiated telemetry changes and device actions from the UI or external
- * integrations are mediated through a consistent service boundary.
- * </p>
  */
 public interface DeviceControlService {
 

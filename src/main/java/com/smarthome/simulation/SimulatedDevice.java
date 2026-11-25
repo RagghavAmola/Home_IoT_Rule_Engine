@@ -7,11 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Abstraction representing a simulated IoT device.
- * <p>
- * Enforces validation rules on allowed state keys and values according to the device's
- * physical capabilities and domain characteristics.
- * </p>
+ * Abstraction representing a simulated IoT device with state validation.
  */
 public interface SimulatedDevice {
 

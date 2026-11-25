@@ -30,12 +30,7 @@ import com.smarthome.domain.Rule;
 import com.smarthome.exception.DataAccessException;
 
 /**
- * JDBC implementation of {@link RuleDao}.
- * Handles full transactional persistence and recursive reconstruction of hierarchical condition trees.
- * <p>
- * <b>Thread-safety strategy:</b> Stateless DAO relying on the thread-safe {@link ConnectionProvider}.
- * All operations execute within transactional or connection-scoped PreparedStatement blocks.
- * </p>
+ * JDBC implementation of RuleDao managing rules, condition trees, and actions.
  */
 public class JdbcRuleDao implements RuleDao {
 

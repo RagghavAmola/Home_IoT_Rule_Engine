@@ -12,11 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Implementation of {@link ConflictResolutionService} that delegates pure-Java conflict resolution
- * to {@link ConflictResolver} and persists generated {@link OverrideRecord}s via {@link ExecutionLogDao}.
- * <p>
- * <b>Thread-safety strategy:</b> Stateless service relying on thread-safe DAO and engine components.
- * </p>
+ * Implementation of ConflictResolutionService delegating resolution to ConflictResolver and persisting overrides.
  */
 public class ConflictResolutionServiceImpl implements ConflictResolutionService {
 

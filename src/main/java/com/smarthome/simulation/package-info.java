@@ -1,7 +1,4 @@
 /**
- * Simulated IoT devices, sensors, actuators, and background monitoring tasks.
- * <p>
- * Manages background concurrency using {@link java.util.concurrent.ScheduledExecutorService}.
- * </p>
+ * Simulated IoT devices, sensors, actuators, and state management.
  */
 package com.smarthome.simulation;
